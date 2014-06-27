@@ -1,0 +1,27 @@
+/*
+*
+*    PIR Sensor - Test
+*
+*/
+
+void setup()
+{
+  // init USB
+  USB.begin();
+  
+  // enable 5V for sensor
+  PWR.setSensorPower(SENS_5V, SENS_ON);  
+  
+  // setting Digital 8 as a sensor input
+  pinMode(DIGITAL8,INPUT);
+}
+
+void loop()
+{
+  // get sensor value
+  USB.println(digitalRead(DIGITAL8),DEC);
+  
+  // wait some time
+  delay(500);
+}
+

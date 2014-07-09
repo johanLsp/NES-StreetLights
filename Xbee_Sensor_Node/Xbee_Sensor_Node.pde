@@ -1,12 +1,12 @@
 /*
 *
-*	Waspmote Sensor node
+*	Waspmote Sensor node final
 *
 */
 
 // configuration
 #define SENSTHRESH 3            // Threshold for detecting
-#define DELAYT 500              // Delay after polling pin
+#define DELAYT 200              // Delay after polling pin
 #define DIGITALPIN DIGITAL1     // Input Pin definition
 
 
@@ -15,9 +15,10 @@
  packetXBee *paq_sent;          // packet object
  int8_t state = 0;
  long previous = 0;
- char *data = "Object detected";
+ char *data = "TEST";
  uint8_t PANID[2] = {0x12,0x34};
  char *KEY = "WaspmoteKey";
+ 
 
 void setup()
 {
@@ -88,13 +89,13 @@ void setup()
 // infinite loop - main program
 void loop()
 {
-    // get sensor value
+  // get sensor value
   if( digitalRead(DIGITALPIN) )
   {
    sens_counter++; 
   }
   
-  
+ // only if threshold is passed send a message 
  if( sens_counter > SENSTHRESH )
  {
   sens_counter = 0;
@@ -105,23 +106,23 @@ void loop()
   paq_sent = (packetXBee*) calloc(1,sizeof(packetXBee)); 
   paq_sent->mode = UNICAST;
   paq_sent->MY_known = 0;
-  paq_sent->packetID = 0x52;
+  paq_sent->packetID = 0x02;
   paq_sent->opt = 0;
   xbee868.hops = 0;
   xbee868.setOriginParams(paq_sent, "5678", MY_TYPE);
-  xbee868.setDestinationParams(paq_sent, "0013A200406748BE", data, MAC_TYPE, DATA_ABSOLUTE);
+  xbee868.setDestinationParams(paq_sent, "0013A20040674869", data, MAC_TYPE, DATA_ABSOLUTE);
   
   // send data
   xbee868.sendXBee(paq_sent);
            
   if( !xbee868.error_TX )
   {
-    XBee.println("Packet sent!");
+    XBee.print("Packet sent");
   }
 
   // release and reset packet
   free(paq_sent);
-  paq_sent=NULL;
+  paq_sent = NULL;
 
  }
  

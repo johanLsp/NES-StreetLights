@@ -181,6 +181,9 @@ void loop()
   
   if( XBee.available() )
   { 
+    
+    
+    sens_counter = 0;
    // XBee.print("Receiving");
    // XBee.println("");
    xbee868.treatData();
@@ -200,15 +203,22 @@ void loop()
    
       switch(packetId) {
        case 2 :
-         timerN2 = millis();
+         
           
          XBee.print("N2 : detection");
       
          XBee.println("");
+         
+         
           
           detectN1 = (millis() - timerN1) < 5000;
+          detectN2 = (millis() - timerN2) < 5000;
           detectN3 = (millis() - timerN3) < 5000;
           
+          
+          if(!detectN2) {
+            timerN2 = millis();
+            
           if(detectN1 && detectN3) {
             timerS1 = millis();
             timerS2 = millis();
@@ -220,17 +230,27 @@ void loop()
             timerS1 = millis();
             timerS2 = millis();
           }
+          
+          }
     
           break;
         
         case 3 :
-          timerN3 = millis();
+          
           
               XBee.print("N3 : detection");
    XBee.println("");
+   
+         detectN3 = (millis() - timerN3) < 5000;
+         if(!detectN3) {
+           timerN3 = millis();
+           
+           
           if ((millis() - timerN2) >= 5000) {
             timerS2 = millis();
           }
+          
+         }
         break;
               
        }
@@ -322,10 +342,16 @@ XBee.println("");
             XBee.print("N1 : detection");
     XBee.println("");
     sens_counter = 0;
-    timerN1 = millis();
     
-    if ((millis() - timerN2) >= 5000) {
-        timerS1 = millis();
+    
+    detectN1 = (millis() - timerN1) < 5000;
+    
+    if(!detectN1) {
+      timerN1 = millis();
+      
+      if ((millis() - timerN2) >= 5000) {
+          timerS1 = millis();
+      }
     }
       
     }

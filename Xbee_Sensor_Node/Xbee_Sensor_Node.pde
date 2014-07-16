@@ -7,7 +7,7 @@
 // configuration
 #define SENSTHRESH 3            // Threshold for detecting
 #define DELAYT 200              // Delay after polling pin
-#define DIGITALPIN DIGITAL1     // Input Pin definition
+#define DIGITALPIN DIGITAL2     // Input Pin definition
 
 
 // global variables

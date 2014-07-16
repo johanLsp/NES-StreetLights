@@ -1,18 +1,18 @@
 /*
 *
-*	Waspmote Sensor node final
+* Waspmote Sensor node final
 *
 */
 
 // configuration
-#define SENSTHRESH 3            // Threshold for detecting
-#define DELAYT 200              // Delay after polling pin
-#define DIGITALPIN DIGITAL2     // Input Pin definition
+#define SENSTHRESH 3 // Threshold for detecting
+#define DELAYT 200 // Delay after polling pin
+#define DIGITALPIN DIGITAL2 // Input Pin definition
 
 
 // global variables
- int sens_counter = 0;          // sensor detection counter
- packetXBee *paq_sent;          // packet object
+ int sens_counter = 0; // sensor detection counter
+ packetXBee *paq_sent; // packet object
  int8_t state = 0;
  long previous = 0;
  char *data = "TEST";
@@ -26,7 +26,7 @@ void setup()
   USB.begin();
   
   // enable 5V for sensor
-  PWR.setSensorPower(SENS_5V, SENS_ON);  
+  PWR.setSensorPower(SENS_5V, SENS_ON);
   
   // setting digital pin as a sensor input
   pinMode(DIGITALPIN,INPUT);
@@ -92,10 +92,10 @@ void loop()
   // get sensor value
   if( digitalRead(DIGITALPIN) )
   {
-   sens_counter++; 
+   sens_counter++;
   }
   
- // only if threshold is passed send a message 
+ // only if threshold is passed send a message
  if( sens_counter > SENSTHRESH )
  {
   sens_counter = 0;
@@ -103,7 +103,7 @@ void loop()
   // take this part into setup?
   
   // parameters to send
-  paq_sent = (packetXBee*) calloc(1,sizeof(packetXBee)); 
+  paq_sent = (packetXBee*) calloc(1,sizeof(packetXBee));
   paq_sent->mode = UNICAST;
   paq_sent->MY_known = 0;
   paq_sent->packetID = 0x02;
